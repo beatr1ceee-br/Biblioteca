@@ -1,0 +1,67 @@
+[
+    {
+        "id": 1780985439,
+        "user_id": 1780895624,
+        "user_nume": "Daraban Gabriela",
+        "book_id": 2,
+        "book_title": "Dopamina",
+        "book_author": "Daniel Z. Lieberman",
+        "data_rezervare": "2026-06-09 08:10:39",
+        "status": "anulată",
+        "data_anulare": "2026-06-09 20:17:17"
+    },
+    {
+        "id": 1781084556,
+        "user_id": 1780895624,
+        "user_nume": "Daraban Gabriela",
+        "book_id": 3,
+        "book_title": "Hoțul de cărți",
+        "book_author": "Markus Zusak",
+        "data_rezervare": "2026-06-10 11:42:36",
+        "status": "anulată",
+        "data_anulare": "2026-06-10 12:51:05"
+    },
+    {
+        "id": 1781086715,
+        "user_id": 1780895624,
+        "user_nume": "Daraban Gabriela",
+        "book_id": 5,
+        "book_title": "Trenul de la miezul nopții",
+        "book_author": "Matt Haig",
+        "data_rezervare": "2026-06-10 12:18:35",
+        "status": "anulată",
+        "data_anulare": "2026-06-10 12:51:07"
+    },
+    {
+        "id": 1781088636,
+        "user_id": 1780895624,
+        "user_nume": "Daraban Gabriela",
+        "book_id": 9,
+        "book_title": "Păcatul Tău",
+        "book_author": "Mercedes Ron",
+        "data_rezervare": "2026-06-10 12:50:36",
+        "status": "anulată",
+        "data_anulare": "2026-06-10 12:51:02"
+    },
+    {
+        "id": 1781088682,
+        "user_id": 1780895624,
+        "user_nume": "Daraban Gabriela",
+        "book_id": 7,
+        "book_title": "1984",
+        "book_author": "George Orwell",
+        "data_rezervare": "2026-06-10 12:51:22",
+        "status": "activă"
+    },
+    {
+        "id": 1781090475,
+        "user_id": 1781081737,
+        "user_nume": "Daniel",
+        "book_id": 3,
+        "book_title": "Totul se termina cu noi",
+        "book_author": "Collene Hoover",
+        "data_rezervare": "2026-06-10 13:21:15",
+        "status": "anulată",
+        "data_anulare": "2026-06-10 13:36:24"
+    }
+]
