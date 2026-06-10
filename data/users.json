@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1780478088,
+        "nume": "Braga Beatrice",
+        "email": "bragabeatrice82@gmail.com",
+        "parola": "$2y$10$5uQsByCABFWkJNjdAjymF.v0CERaAlmq3A53nUMU045xQah1oy\/Bi",
+        "rol": "utilizator",
+        "data_inregistrare": "2026-06-03 11:14:48"
+    },
+    {
+        "id": 1780895624,
+        "nume": "Daraban Gabriela",
+        "email": "darabangabriela7@gmail.com",
+        "parola": "$2y$10$EC\/wiZ9YHZjHyW3xcngPfed4Mbw7SD3H\/XqAspczSxxnO5idAl0NC",
+        "rol": "admin",
+        "data_inregistrare": "2026-06-08 07:13:44"
+    },
+    {
+        "id": 1781081737,
+        "nume": "Daniel",
+        "email": "danielbrinza12@gmail.com",
+        "parola": "$2y$10$MdAU8dTVyhRMMKJUZZPRFew.TiIzrjc6RpHF4E2da8oXJtytj0W9S",
+        "rol": "utilizator",
+        "data_inregistrare": "2026-06-10 10:55:38"
+    },
+    {
+        "id": 1781118713,
+        "nume": "Loredana",
+        "email": "loredana12@gmail.com",
+        "parola": "$2y$10$QdMBMUy9geOe0oy2UHHHX.iHcmM6ouDdNSlU4O4P6q7cVdkK3qTYu",
+        "rol": "utilizator",
+        "data_inregistrare": "2026-06-10 21:11:53"
+    },
+    {
+        "id": 1781119811,
+        "nume": "Dan",
+        "email": "dan17@gmail.com",
+        "parola": "$2y$10$JcZPZoHQAVZ9p.ha\/zkiku0\/0imDF10pXBltg8Rcme97I8jDW.U8C",
+        "rol": "utilizator",
+        "data_inregistrare": "2026-06-10 21:30:11"
+    }
+]

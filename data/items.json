@@ -1,33 +1,25 @@
 [
     {
-        "id": 1,
-        "nume": "Pacienta tăcută",
-        "autor": "Alex Michaelides",
-        "imagine": "images/book_01.jpg",
-        "sectiune": "recomandate",
-        "categorie": "Fictiune"
-    },
-    {
         "id": 2,
-        "nume": "Dopamina",
-        "autor": "Daniel Z. Lieberman",
-        "imagine": "images/book_02.webp",
+        "nume": "Tată bogat.Tată sărac.",
+        "autor": "Robert T. Kiyosaki",
+        "imagine": "images\/tata.jpg",
         "sectiune": "recomandate",
-        "categorie": "Dezvoltare"
+        "categorie": "Dezvoltare personală"
     },
     {
         "id": 3,
-        "nume": "Hoțul de cărți",
-        "autor": "Markus Zusak",
-        "imagine": "images/book_03.webp",
+        "nume": "Totul se termina cu noi",
+        "autor": "Collene Hoover",
+        "imagine": "images\/totul1.webp",
         "sectiune": "recomandate",
-        "categorie": "Istorie"
+        "categorie": "Fictiune"
     },
     {
         "id": 4,
         "nume": "Hachiko. Cainele care astepta",
         "autor": " Lluis Prats",
-        "imagine": "images/book_04.webp",
+        "imagine": "images\/book_04.webp",
         "sectiune": "recomandate",
         "categorie": "Fictiune"
     },
@@ -35,7 +27,7 @@
         "id": 5,
         "nume": "Trenul de la miezul nopții",
         "autor": "Matt Haig",
-        "imagine": "images/book_05.webp",
+        "imagine": "images\/book_05.webp",
         "sectiune": "recomandate",
         "categorie": "Fictiune"
     },
@@ -43,7 +35,7 @@
         "id": 6,
         "nume": "Twisted Hate",
         "autor": "Ana Huang",
-        "imagine": "images/book_005.webp",
+        "imagine": "images\/book_005.webp",
         "nota": "4.8",
         "sectiune": "pentru_tine",
         "categorie": "Fictiune"
@@ -52,7 +44,7 @@
         "id": 7,
         "nume": "1984",
         "autor": "George Orwell",
-        "imagine": "images/book_006.webp",
+        "imagine": "images\/book_006.webp",
         "nota": "4.7",
         "sectiune": "pentru_tine",
         "categorie": "Fictiune"
@@ -61,7 +53,7 @@
         "id": 8,
         "nume": "Rezerva",
         "autor": "Prințul Harry",
-        "imagine": "images/book_007.jpg",
+        "imagine": "images\/book_007.jpg",
         "nota": "4.9",
         "sectiune": "pentru_tine",
         "categorie": "Istorie"
@@ -70,9 +62,19 @@
         "id": 9,
         "nume": "Păcatul Tău",
         "autor": "Mercedes Ron",
-        "imagine": "images/book_008.jpg",
+        "imagine": "images\/book_008.jpg",
         "nota": "4.7",
         "sectiune": "pentru_tine",
         "categorie": "Fictiune"
+    },
+    {
+        "id": 10,
+        "nume": "Melcul fulger",
+        "autor": "Robert T. Kiyosaki",
+        "categorie": "fictiune",
+        "sectiune": "recomandate",
+        "nota": "5.0",
+        "imagine": "https:\/\/media.elefant.ro\/mnresize\/1000\/-\/is\/product-images\/cartero\/2026\/99c212f4\/dd91\/400c\/a3e1\/4c34fe28e565\/99c212f4-dd91-400c-a3e1-4c34fe28e565_1.jpg",
+        "descriere": "iubirea in viziunea animalelor"
     }
 ]

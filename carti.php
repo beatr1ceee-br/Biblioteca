@@ -13,7 +13,31 @@ if (file_exists($jsonFile)) {
     }
 }
 
-$categorieSelectata = trim($_GET["cat"] ?? "Toate");
+$q = trim($_GET["q"] ?? "");
+$categorie = trim($_GET["cat"] ?? "Toate");
+
+$cartiFiltrate = array_filter($books, function ($carte) use ($q, $categorie) {
+    $nume = strtolower($carte["nume"] ?? "");
+    $autor = strtolower($carte["autor"] ?? "");
+    $cat = strtolower($carte["categorie"] ?? "");
+    $query = strtolower($q);
+
+    $potrivireCautare = true;
+    $potrivireCategorie = true;
+
+    if ($query !== "") {
+        $potrivireCautare =
+            strpos($nume, $query) !== false ||
+            strpos($autor, $query) !== false ||
+            strpos($cat, $query) !== false;
+    }
+
+    if ($categorie !== "" && $categorie !== "Toate") {
+        $potrivireCategorie = ($carte["categorie"] ?? "") === $categorie;
+    }
+
+    return $potrivireCautare && $potrivireCategorie;
+});
 
 $categorii = [];
 
@@ -24,14 +48,6 @@ foreach ($books as $book) {
 }
 
 sort($categorii);
-
-$cartiFiltrate = array_filter($books, function ($book) use ($categorieSelectata) {
-    if ($categorieSelectata === "Toate" || $categorieSelectata === "") {
-        return true;
-    }
-
-    return isset($book["categorie"]) && $book["categorie"] === $categorieSelectata;
-});
 ?>
 
 <!DOCTYPE html>
@@ -39,111 +55,124 @@ $cartiFiltrate = array_filter($books, function ($book) use ($categorieSelectata)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categorii - Biblioteca Online</title>
+    <title>Cărți - Biblioteca Online</title>
 
     <link rel="stylesheet" href="./CSS/style.css?v=20">
 
     <style>
-        .categories-page {
+        .books-page {
             padding: 50px 20px 80px;
         }
 
-        .page-hero-small {
+        .page-title-box {
             background: var(--bg-white);
-            border-radius: 18px;
-            padding: 36px;
-            margin-bottom: 32px;
-            box-shadow: var(--shadow-soft);
-        }
-
-        .page-hero-small h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 44px;
-            color: var(--green-dark);
-            margin-bottom: 12px;
-        }
-
-        .page-hero-small p {
-            color: var(--text-muted);
-            font-size: 15px;
-            line-height: 1.7;
-            max-width: 820px;
-        }
-
-        .category-filter-box {
-            background: var(--bg-white);
+            padding: 35px;
             border-radius: 16px;
-            padding: 22px;
-            margin-bottom: 32px;
-            box-shadow: 0 8px 22px rgba(18, 42, 26, 0.05);
+            margin-bottom: 35px;
+            box-shadow: 0 10px 28px rgba(18, 42, 26, 0.06);
         }
 
-        .category-filter-box h2 {
+        .page-title-box h1 {
             font-family: 'Cormorant Garamond', serif;
             color: var(--green-dark);
-            font-size: 28px;
-            margin-bottom: 18px;
+            font-size: 44px;
+            margin-bottom: 10px;
         }
 
-        .category-pills {
+        .page-title-box p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .books-toolbar {
+            background: var(--bg-white);
+            padding: 22px;
+            border-radius: 14px;
+            margin-bottom: 35px;
+            box-shadow: 0 8px 22px rgba(18, 42, 26, 0.05);
             display: flex;
+            gap: 15px;
+            align-items: center;
             flex-wrap: wrap;
-            gap: 12px;
         }
 
-        .category-pill {
+        .books-toolbar input,
+        .books-toolbar select {
+            height: 48px;
+            border: 1px solid #ded0bd;
+            border-radius: 8px;
+            padding: 0 15px;
+            font-size: 15px;
+            outline: none;
+            background: #fffdf8;
+            color: var(--text-dark);
+        }
+
+        .books-toolbar input {
+            flex: 1;
+            min-width: 240px;
+        }
+
+        .books-toolbar button {
+            height: 48px;
+            border: none;
+            background: var(--green-dark);
+            color: white;
+            padding: 0 26px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .books-toolbar button:hover {
+            background: var(--gold);
+        }
+
+        .books-toolbar a {
+            height: 48px;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            min-height: 42px;
-            padding: 10px 18px;
-            border-radius: 999px;
-            background: #fffdf8;
-            border: 1px solid #dfd2c5;
-            color: var(--text-dark);
-            font-size: 14px;
+            background: #c9a985;
+            color: white;
+            padding: 0 22px;
+            border-radius: 8px;
             font-weight: 700;
             transition: 0.2s ease;
         }
 
-        .category-pill:hover,
-        .category-pill.active {
+        .books-toolbar a:hover {
             background: var(--green-dark);
-            color: #ffffff;
-            border-color: var(--green-dark);
         }
 
-        .selected-info {
-            margin-bottom: 22px;
+        .result-info {
             color: var(--text-muted);
             font-size: 15px;
+            margin-bottom: 22px;
         }
 
-        .selected-info strong {
-            color: var(--green-dark);
-        }
-
-        .category-books-grid {
+        .all-books-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
             gap: 24px;
         }
 
-        .category-book-card {
+        .all-book-card {
             background: var(--bg-white);
             border-radius: 14px;
             padding: 16px;
             text-align: center;
             box-shadow: 0 8px 22px rgba(18, 42, 26, 0.06);
             transition: 0.2s ease;
+            border: 1px solid rgba(18, 42, 26, 0.04);
         }
 
-        .category-book-card:hover {
+        .all-book-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 14px 30px rgba(18, 42, 26, 0.11);
         }
 
-        .category-book-card img {
+        .all-book-card img {
             width: 100%;
             height: 245px;
             object-fit: cover;
@@ -152,20 +181,20 @@ $cartiFiltrate = array_filter($books, function ($book) use ($categorieSelectata)
             background: #f4eee3;
         }
 
-        .category-book-card h3 {
+        .all-book-card h3 {
             color: var(--green-dark);
             font-size: 16px;
             margin-bottom: 6px;
             min-height: 42px;
         }
 
-        .category-book-card p {
+        .all-book-card p {
             color: var(--text-muted);
             font-size: 14px;
             margin-bottom: 8px;
         }
 
-        .book-category-label {
+        .book-cat {
             display: inline-block;
             background: #f1e4d2;
             color: #8d6b3e;
@@ -176,10 +205,10 @@ $cartiFiltrate = array_filter($books, function ($book) use ($categorieSelectata)
             margin-bottom: 12px;
         }
 
-        .details-link {
+        .all-book-card .details {
             display: inline-block;
             background: var(--green-dark);
-            color: #ffffff;
+            color: white;
             padding: 9px 18px;
             border-radius: 8px;
             font-size: 14px;
@@ -187,48 +216,59 @@ $cartiFiltrate = array_filter($books, function ($book) use ($categorieSelectata)
             transition: 0.2s ease;
         }
 
-        .details-link:hover {
+        .all-book-card .details:hover {
             background: var(--gold);
         }
 
         .empty-box {
             background: var(--bg-white);
+            padding: 30px;
             border-radius: 14px;
-            padding: 28px;
-            box-shadow: 0 8px 22px rgba(18, 42, 26, 0.05);
             color: var(--text-muted);
-            font-size: 16px;
+            font-size: 17px;
+            box-shadow: 0 8px 22px rgba(18, 42, 26, 0.05);
         }
 
-        body.dark-theme .category-pill {
-            background: #18231b;
-            color: #eef5ef;
-            border-color: rgba(255, 255, 255, 0.14);
+        body.dark-theme .books-toolbar input,
+        body.dark-theme .books-toolbar select {
+            background: #111a14 !important;
+            color: #eef5ef !important;
+            border-color: rgba(255, 255, 255, 0.14) !important;
         }
 
-        body.dark-theme .category-pill:hover,
-        body.dark-theme .category-pill.active {
-            background: #d7ad63;
-            color: #101611;
-            border-color: #d7ad63;
+        body.dark-theme .all-book-card {
+            background: #18231b !important;
+            border-color: rgba(255, 255, 255, 0.12) !important;
         }
 
-        body.dark-theme .book-category-label {
-            background: #243b2a;
-            color: #d7ad63;
+        body.dark-theme .all-book-card h3 {
+            color: #d7ad63 !important;
+        }
+
+        body.dark-theme .book-cat {
+            background: #243b2a !important;
+            color: #d7ad63 !important;
+        }
+
+        body.dark-theme .result-info {
+            color: #b8c6ba !important;
         }
 
         @media (max-width: 700px) {
-            .page-hero-small {
-                padding: 26px;
-            }
-
-            .page-hero-small h1 {
+            .page-title-box h1 {
                 font-size: 34px;
             }
 
-            .category-books-grid {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            .books-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .books-toolbar input,
+            .books-toolbar select,
+            .books-toolbar button,
+            .books-toolbar a {
+                width: 100%;
             }
         }
     </style>
@@ -244,8 +284,8 @@ $cartiFiltrate = array_filter($books, function ($book) use ($categorieSelectata)
 
         <ul class="nav-links">
             <li><a href="index.php" data-i18n="nav.home">Acasă</a></li>
-            <li><a href="carti.php" data-i18n="nav.books">Cărți</a></li>
-            <li><a href="categorii.php?cat=Toate" class="active" data-i18n="nav.categories">Categorii</a></li>
+            <li><a href="carti.php" class="active" data-i18n="nav.books">Cărți</a></li>
+            <li><a href="categorii.php?cat=Toate" data-i18n="nav.categories">Categorii</a></li>
             <li><a href="despre.php" data-i18n="nav.about">Despre</a></li>
             <li><a href="contact.php" data-i18n="nav.contact">Contact</a></li>
         </ul>
@@ -255,22 +295,24 @@ $cartiFiltrate = array_filter($books, function ($book) use ($categorieSelectata)
                 type="text" 
                 name="q" 
                 placeholder="Caută cărți, autori, categorii..."
+                value="<?php echo htmlspecialchars($q); ?>"
                 data-i18n-placeholder="search.placeholder"
             >
         </form>
 
         <div class="nav-actions">
             <?php if (isset($_SESSION["user_id"])): ?>
-    <a href="utilizator.php" class="btn-auth">
-        Salut, <?php echo htmlspecialchars($_SESSION["user_nume"]); ?>
-    </a>
+                <a href="utilizator.php" class="btn-auth">
+                    <span data-i18n="auth.hello">Salut</span>,
+                    <?php echo htmlspecialchars($_SESSION["user_nume"] ?? "Utilizator"); ?>
+                </a>
 
-    <?php if (isset($_SESSION["user_rol"]) && $_SESSION["user_rol"] === "admin"): ?>
-        <a href="dashboard.php" class="btn-auth">Dashboard</a>
-    <?php endif; ?>
+                <?php if (isset($_SESSION["user_rol"]) && $_SESSION["user_rol"] === "admin"): ?>
+                    <a href="dashboard.php" class="btn-auth" data-i18n="auth.dashboard">Dashboard</a>
+                <?php endif; ?>
 
-    <a href="logout.php" class="btn-member">Logout</a>
-<?php else: ?>
+                <a href="logout.php" class="btn-member" data-i18n="auth.logout">Logout</a>
+            <?php else: ?>
                 <a href="autentificare.php" class="btn-auth" data-i18n="auth.login">Autentificare</a>
                 <a href="inregistrare.php" class="btn-member" data-i18n="auth.member">Devino membru</a>
             <?php endif; ?>
@@ -288,54 +330,63 @@ $cartiFiltrate = array_filter($books, function ($book) use ($categorieSelectata)
     </div>
 </header>
 
-<main class="container categories-page">
+<main class="container books-page">
 
-    <section class="page-hero-small">
-        <h1>Categorii de cărți</h1>
-        <p>
-            Alege o categorie pentru a vedea cărțile disponibile în Biblioteca Online.
-            Datele sunt citite direct din fișierul <strong>data/items.json</strong>.
+    <section class="page-title-box">
+        <h1 data-i18n="books.title">Catalogul de cărți</h1>
+
+        <p data-i18n="books.text">
+            Aici poți vedea toate cărțile disponibile în Biblioteca Online.
+            Caută după titlu, autor sau categorie și accesează detaliile fiecărei cărți.
         </p>
     </section>
 
-    <section class="category-filter-box">
-        <h2>Alege categoria</h2>
+    <form class="books-toolbar" method="GET" action="carti.php">
+        <input 
+            type="text" 
+            name="q" 
+            placeholder="Caută după titlu, autor sau categorie..."
+            value="<?php echo htmlspecialchars($q); ?>"
+            data-i18n-placeholder="books.searchPlaceholder"
+        >
 
-        <div class="category-pills">
-            <a 
-                href="categorii.php?cat=Toate" 
-                class="category-pill <?php echo ($categorieSelectata === "Toate") ? "active" : ""; ?>"
+        <select name="cat">
+            <option 
+                value="Toate" 
+                <?php echo ($categorie === "Toate") ? "selected" : ""; ?>
+                data-i18n="books.allCategories"
             >
-                Toate
-            </a>
+                Toate categoriile
+            </option>
 
-            <?php foreach ($categorii as $categorie): ?>
-                <a 
-                    href="categorii.php?cat=<?php echo urlencode($categorie); ?>" 
-                    class="category-pill <?php echo ($categorieSelectata === $categorie) ? "active" : ""; ?>"
+            <?php foreach ($categorii as $cat): ?>
+                <option 
+                    value="<?php echo htmlspecialchars($cat); ?>"
+                    <?php echo ($categorie === $cat) ? "selected" : ""; ?>
                 >
-                    <?php echo htmlspecialchars($categorie); ?>
-                </a>
+                    <?php echo htmlspecialchars($cat); ?>
+                </option>
             <?php endforeach; ?>
-        </div>
-    </section>
+        </select>
 
-    <div class="selected-info">
-        Categoria selectată:
-        <strong><?php echo htmlspecialchars($categorieSelectata); ?></strong>
-        —
-        <?php echo count($cartiFiltrate); ?>
-        <?php echo count($cartiFiltrate) == 1 ? "carte găsită" : "cărți găsite"; ?>
-    </div>
+        <button type="submit" data-i18n="search.button">Caută</button>
+
+        <a href="carti.php" data-i18n="books.reset">Resetează</a>
+    </form>
+
+    <p class="result-info">
+        <span data-i18n="books.found">Cărți găsite</span>:
+        <strong><?php echo count($cartiFiltrate); ?></strong>
+    </p>
 
     <?php if (count($cartiFiltrate) === 0): ?>
-        <div class="empty-box">
-            Nu există cărți pentru această categorie.
+        <div class="empty-box" data-i18n="books.empty">
+            Nu au fost găsite cărți pentru criteriile introduse.
         </div>
     <?php else: ?>
-        <div class="category-books-grid">
+        <div class="all-books-grid">
             <?php foreach ($cartiFiltrate as $carte): ?>
-                <div class="category-book-card">
+                <div class="all-book-card">
                     <?php if (!empty($carte["imagine"])): ?>
                         <img 
                             src="<?php echo htmlspecialchars($carte["imagine"]); ?>" 
@@ -352,7 +403,7 @@ $cartiFiltrate = array_filter($books, function ($book) use ($categorieSelectata)
                     </p>
 
                     <?php if (!empty($carte["categorie"])): ?>
-                        <span class="book-category-label">
+                        <span class="book-cat">
                             <?php echo htmlspecialchars($carte["categorie"]); ?>
                         </span>
                     <?php endif; ?>
@@ -361,7 +412,8 @@ $cartiFiltrate = array_filter($books, function ($book) use ($categorieSelectata)
 
                     <a 
                         href="detalii.php?id=<?php echo urlencode($carte["id"] ?? ""); ?>" 
-                        class="details-link"
+                        class="details"
+                        data-i18n="book.details"
                     >
                         Detalii
                     </a>
@@ -408,10 +460,10 @@ $cartiFiltrate = array_filter($books, function ($book) use ($categorieSelectata)
             <h5 data-i18n="footer.info">Informații utile</h5>
 
             <ul>
-                <li>Termeni și condiții</li>
-                <li>Politică de confidențialitate</li>
-                <li>Regulament utilizare</li>
-                <li>Ajutor utilizator</li>
+                <li data-i18n="footer.terms">Termeni și condiții</li>
+                <li data-i18n="footer.privacy">Politică de confidențialitate</li>
+                <li data-i18n="footer.rules">Regulament utilizare</li>
+                <li data-i18n="footer.help">Ajutor utilizator</li>
             </ul>
         </div>
 
@@ -442,6 +494,5 @@ $cartiFiltrate = array_filter($books, function ($book) use ($categorieSelectata)
 </footer>
 
 <script src="js/script.js?v=14"></script>
-
 </body>
 </html>

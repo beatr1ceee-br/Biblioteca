@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1780987481,
+        "nume": "Daraban Gabriela",
+        "email": "darabangabriela7@gmail.com",
+        "subiect": "O carte nouă",
+        "mesaj": "Aș dori să adăugați încă careva cărți",
+        "data_trimiterii": "2026-06-09 08:44:41",
+        "status": "nou"
+    },
+    {
+        "id": 1781086763,
+        "nume": "Gabriela",
+        "email": "darabangabriela7@gmail.com",
+        "subiect": "O carte nouă",
+        "mesaj": "mi a plăcut mul cartea rezervată",
+        "data_trimiterii": "2026-06-10 12:19:23",
+        "status": "nou"
+    },
+    {
+        "id": 1781119910,
+        "nume": "Loredana",
+        "email": "loredana12@gmail.com",
+        "subiect": "ador",
+        "mesaj": "ador modul dumnevoastra de rezervare a cartilor",
+        "data_trimiterii": "2026-06-10 21:31:50",
+        "status": "nou"
+    }
+]
